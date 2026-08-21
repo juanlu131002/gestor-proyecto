@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ProjectFlow · Gantt</title>
+
+  <!-- CSS GENERAL -->
+  <link rel="stylesheet" href="css/app.css">
+
+  <!-- CSS GANTT -->
+  <link rel="stylesheet" href="css/gantt.css">
+
+  <!-- ICONOS -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+  <!-- ======================================================
+       SIDEBAR
+  ======================================================= -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-top">
+
+      <a href="dashboard.html" class="brand">
+
+        <div class="brand-mark">
+          P
+        </div>
+
+        <div class="brand-copy">
+          <strong>ProjectFlow</strong>
+          <span>Proyecto</span>
+        </div>
+
+      </a>
+
+
+      <nav class="nav">
+
+        <span class="nav-title">
+          PROYECTO
+        </span>
+
+
+        <a href="dashboard.html" class="nav-link">
+          <i data-lucide="circle"></i>
+          <span>Resumen</span>
+        </a>
+
+
+        <a href="tasks.html" class="nav-link">
+          <i data-lucide="list-checks"></i>
+          <span>Tareas</span>
+        </a>
+
+
+        <a href="kanban.html" class="nav-link">
+          <i data-lucide="columns-3"></i>
+          <span>Kanban</span>
+        </a>
+
+
+        <a href="gantt.html" class="nav-link active">
+          <i data-lucide="chart-gantt"></i>
+          <span>Gantt</span>
+        </a>
+
+
+        <a href="calendar.html" class="nav-link">
+          <i data-lucide="calendar-days"></i>
+          <span>Calendario</span>
+        </a>
+
+      </nav>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <div
+        class="user-avatar"
+        id="sidebarAvatar"
+      >
+        --
+      </div>
+
+
+      <div class="user-copy">
+
+        <strong id="sidebarUserName">
+          Cargando...
+        </strong>
+
+        <span id="sidebarUserRole">
+          —
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="sidebar-more"
+        id="logoutButton"
+        title="Cerrar sesión"
+      >
+        <i data-lucide="log-out"></i>
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          type="button"
+          class="mobile-menu"
+        >
+          <i data-lucide="menu"></i>
+        </button>
+
+        <span class="topbar-project">
+          Proyecto de la asignatura
+        </span>
+
+      </div>
+
+
+      <div class="topbar-right">
+
+        <button
+          type="button"
+          class="topbar-icon"
+          title="Buscar"
+        >
+          <i data-lucide="search"></i>
+        </button>
+
+        <div class="notifications-wrapper" id="notificationsWrapper">
+
+          <button
+            type="button"
+            class="topbar-icon"
+            id="notificationsButton"
+            title="Notificaciones"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i data-lucide="bell"></i>
+            <span
+              class="notifications-badge"
+              id="notificationsBadge"
+              hidden
+            ></span>
+          </button>
+
+          <div
+            class="notifications-panel"
+            id="notificationsPanel"
+            hidden
+          >
+
+            <div class="notifications-panel-header">
+              Notificaciones
+            </div>
+
+            <div
+              class="notifications-list"
+              id="notificationsList"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ======================================================
+         CONTENT
+    ======================================================= -->
+
+    <div class="gantt-main">
+
+
+      <!-- ====================================================
+           HEADER
+      ===================================================== -->
+
+      <section class="gantt-page-header">
+
+        <div>
+
+          <span class="section-kicker">
+            PLANIFICACIÓN
+          </span>
+
+          <h1>
+            Diagrama de Gantt
+          </h1>
+
+          <p>
+            Visualiza la planificación temporal de las subtareas del proyecto.
+          </p>
+
+        </div>
+
+
+        <div class="gantt-summary">
+
+          <div>
+            <strong id="ganttPlannedCount">0</strong>
+            <span>PLANIFICADAS</span>
+          </div>
+
+          <div>
+            <strong id="ganttUnplannedCount">0</strong>
+            <span>SIN FECHA</span>
+          </div>
+
+          <div>
+            <strong id="ganttCompletedCount">0</strong>
+            <span>TERMINADAS</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           TOOLBAR
+      ===================================================== -->
+
+      <section class="gantt-toolbar">
+
+        <div class="gantt-navigation">
+
+          <button
+            type="button"
+            class="gantt-icon-button"
+            id="ganttPrevious"
+            title="Periodo anterior"
+          >
+            <i data-lucide="chevron-left"></i>
+          </button>
+
+
+          <button
+            type="button"
+            class="gantt-today-button"
+            id="ganttToday"
+          >
+            Hoy
+          </button>
+
+
+          <button
+            type="button"
+            class="gantt-icon-button"
+            id="ganttNext"
+            title="Periodo siguiente"
+          >
+            <i data-lucide="chevron-right"></i>
+          </button>
+
+        </div>
+
+
+        <div class="gantt-period">
+
+          <span class="section-kicker">
+            PERIODO
+          </span>
+
+          <h2 id="ganttPeriodTitle">
+            —
+          </h2>
+
+        </div>
+
+
+        <div class="gantt-toolbar-actions">
+
+          <label
+            class="gantt-range-label"
+            for="ganttRange"
+          >
+            Vista
+          </label>
+
+          <select
+            id="ganttRange"
+            class="gantt-range-select"
+          >
+            <option value="30">
+              30 días
+            </option>
+
+            <option value="60" selected>
+              60 días
+            </option>
+
+            <option value="90">
+              90 días
+            </option>
+          </select>
+
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           LEGEND
+      ===================================================== -->
+
+      <section class="gantt-legend-card">
+
+        <div class="gantt-legend-title">
+
+          <span class="section-kicker">
+            TAREAS GLOBALES
+          </span>
+
+          <h2>
+            Leyenda
+          </h2>
+
+        </div>
+
+
+        <div
+          class="gantt-legend"
+          id="ganttLegend"
+        >
+          Cargando...
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           GANTT
+      ===================================================== -->
+
+      <section class="gantt-board-card">
+
+        <div
+          class="gantt-scroll"
+          id="ganttScroll"
+        >
+
+          <div
+            class="gantt-board"
+            id="ganttBoard"
+          >
+
+            <div class="gantt-loading">
+              Cargando planificación...
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           SIN PLANIFICAR
+      ===================================================== -->
+
+      <section
+        class="gantt-unplanned-section"
+        id="ganttUnplannedSection"
+        hidden
+      >
+
+        <div class="gantt-unplanned-header">
+
+          <div>
+
+            <span class="section-kicker">
+              SIN PLANIFICACIÓN
+            </span>
+
+            <h2>
+              Subtareas sin fechas
+            </h2>
+
+          </div>
+
+          <span
+            class="gantt-unplanned-count"
+            id="ganttUnplannedBadge"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div
+          class="gantt-unplanned-list"
+          id="ganttUnplannedList"
+        >
+        </div>
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- ========================================================
+     SUPABASE + JS
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+<script src="js/app.js"></script>
+<script src="js/gantt.js"></script>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+
+</html>

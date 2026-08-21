@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ProjectFlow · Tareas</title>
+
+  <link rel="stylesheet" href="css/tasks.css">
+  <link rel="stylesheet" href="css/app.css">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ======================================================
+       SIDEBAR
+  ======================================================= -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-top">
+
+      <a href="dashboard.html" class="brand">
+
+        <div class="brand-mark">P</div>
+
+        <div class="brand-copy">
+          <strong>ProjectFlow</strong>
+          <span>Proyecto</span>
+        </div>
+
+      </a>
+
+
+      <nav class="nav">
+
+        <span class="nav-title">PROYECTO</span>
+
+        <a href="dashboard.html" class="nav-link">
+          <i data-lucide="circle"></i>
+          <span>Resumen</span>
+        </a>
+
+        <a href="tasks.html" class="nav-link active">
+          <i data-lucide="list-checks"></i>
+          <span>Tareas</span>
+        </a>
+
+        <a href="kanban.html" class="nav-link">
+          <i data-lucide="columns-3"></i>
+          <span>Kanban</span>
+        </a>
+
+        <a href="gantt.html" class="nav-link">
+          <i data-lucide="chart-gantt"></i>
+          <span>Gantt</span>
+        </a>
+
+        <a href="calendar.html" class="nav-link">
+          <i data-lucide="calendar-days"></i>
+          <span>Calendario</span>
+        </a>
+
+      </nav>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <div
+        class="user-avatar"
+        id="sidebarAvatar"
+      >
+        --
+      </div>
+
+      <div class="user-copy">
+
+        <strong id="sidebarUserName">
+          Cargando...
+        </strong>
+
+        <span id="sidebarUserRole">
+          —
+        </span>
+
+      </div>
+
+      <button
+        class="sidebar-more"
+        id="logoutButton"
+        title="Cerrar sesión"
+      >
+        <i data-lucide="log-out"></i>
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button class="mobile-menu">
+          <i data-lucide="menu"></i>
+        </button>
+
+        <span class="topbar-project">
+          Proyecto de la asignatura
+        </span>
+
+      </div>
+
+
+      <div class="topbar-right">
+
+        <button class="topbar-icon" type="button" title="Buscar">
+          <i data-lucide="search"></i>
+        </button>
+
+        <div class="notifications-wrapper" id="notificationsWrapper">
+
+          <button
+            type="button"
+            class="topbar-icon"
+            id="notificationsButton"
+            title="Notificaciones"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i data-lucide="bell"></i>
+            <span
+              class="notifications-badge"
+              id="notificationsBadge"
+              hidden
+            ></span>
+          </button>
+
+          <div
+            class="notifications-panel"
+            id="notificationsPanel"
+            hidden
+          >
+
+            <div class="notifications-panel-header">
+              Notificaciones
+            </div>
+
+            <div
+              class="notifications-list"
+              id="notificationsList"
+            ></div>
+
+          </div>
+
+        </div>
+
+        <button
+          class="new-task-button"
+          id="newGlobalTaskButton"
+        >
+          <i data-lucide="plus"></i>
+          Nueva tarea
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ======================================================
+         CONTENT
+    ======================================================= -->
+
+    <div class="content tasks-page">
+
+
+      <!-- ====================================================
+           HEADER
+      ===================================================== -->
+
+      <section class="tasks-hero">
+
+        <div>
+
+          <span class="section-kicker">
+            PROYECTO
+          </span>
+
+          <h1>
+            Tareas
+          </h1>
+
+          <p>
+            Organiza el proyecto en tareas globales y subtareas.
+          </p>
+
+        </div>
+
+
+        <div class="tasks-summary">
+
+          <div>
+            <strong id="tasksTotal">0</strong>
+            <span>SUBTAREAS</span>
+          </div>
+
+          <div>
+            <strong id="tasksOpen">0</strong>
+            <span>ABIERTAS</span>
+          </div>
+
+          <div>
+            <strong id="tasksCompleted">0</strong>
+            <span>TERMINADAS</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           TOOLBAR
+      ===================================================== -->
+
+      <section class="tasks-toolbar">
+
+        <div class="tasks-search">
+
+          <i data-lucide="search"></i>
+
+          <input
+            type="search"
+            id="taskSearch"
+            placeholder="Buscar una tarea..."
+          >
+
+        </div>
+
+
+        <select
+          id="statusFilter"
+          class="tasks-filter"
+        >
+
+          <option value="">
+            Todos los estados
+          </option>
+
+          <option value="sin_asignar">
+            Sin asignar
+          </option>
+
+          <option value="en_proceso">
+            En proceso
+          </option>
+
+          <option value="pendiente_evaluacion">
+            Pendiente de evaluación
+          </option>
+
+          <option value="terminada">
+            Terminada
+          </option>
+
+        </select>
+
+
+        <select
+          id="priorityFilter"
+          class="tasks-filter"
+        >
+
+          <option value="">
+            Todas las prioridades
+          </option>
+
+          <option value="alta">
+            Alta
+          </option>
+
+          <option value="media">
+            Media
+          </option>
+
+          <option value="baja">
+            Baja
+          </option>
+
+        </select>
+
+      </section>
+
+
+      <!-- ====================================================
+           TASK MANAGER
+      ===================================================== -->
+
+      <section class="task-manager">
+
+
+        <!-- ==================================================
+             GLOBAL TASKS
+        =================================================== -->
+
+        <aside class="global-panel">
+
+          <div class="panel-heading">
+
+            <div>
+
+              <span class="section-kicker">
+                ESTRUCTURA
+              </span>
+
+              <h2>
+                Tareas globales
+              </h2>
+
+            </div>
+
+
+            <button
+              class="panel-add-button"
+              id="globalTaskAddButton"
+              title="Crear tarea global"
+            >
+              <i data-lucide="plus"></i>
+            </button>
+
+          </div>
+
+
+          <div
+            class="global-panel-list"
+            id="globalTaskList"
+          >
+
+            <div class="tasks-loading">
+              Cargando...
+            </div>
+
+          </div>
+
+        </aside>
+
+
+        <!-- ==================================================
+             SUBTASKS
+        =================================================== -->
+
+        <section class="subtasks-panel">
+
+          <div
+            class="subtasks-panel-header"
+            id="selectedGlobalHeader"
+          >
+
+            <div>
+
+              <span class="section-kicker">
+                SELECCIONA UNA TAREA
+              </span>
+
+              <h2>
+                Subtareas
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="subtasks-list"
+            id="subtasksList"
+          >
+
+            <div class="tasks-empty">
+
+              <i data-lucide="mouse-pointer-2"></i>
+
+              <strong>
+                Selecciona una tarea global
+              </strong>
+
+              <span>
+                Aquí aparecerán sus subtareas.
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+
+<!-- ========================================================
+     MODAL — TAREA GLOBAL
+======================================================== -->
+
+<div
+  class="project-modal"
+  id="globalTaskModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="project-modal-backdrop"
+    data-close-modal="globalTaskModal"
+  ></div>
+
+
+  <section class="project-modal-card">
+
+    <header class="modal-header">
+
+      <div>
+
+        <span class="section-kicker">
+          PROYECTO
+        </span>
+
+        <h2>
+          Nueva tarea global
+        </h2>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="modal-close"
+        data-close-modal="globalTaskModal"
+      >
+        <i data-lucide="x"></i>
+      </button>
+
+    </header>
+
+
+    <form
+      id="globalTaskForm"
+      class="project-form"
+    >
+
+      <div class="project-field">
+
+        <label for="globalTaskTitle">
+          Nombre
+        </label>
+
+        <input
+          type="text"
+          id="globalTaskTitle"
+          placeholder="Ej. Investigación"
+          required
+        >
+
+      </div>
+
+
+      <div class="project-field">
+
+        <label for="globalTaskDescription">
+          Descripción
+        </label>
+
+        <textarea
+          id="globalTaskDescription"
+          rows="4"
+          placeholder="Describe el objetivo general..."
+        ></textarea>
+
+      </div>
+
+
+      <div class="project-field">
+
+        <label>
+          Color
+        </label>
+
+
+        <div
+          class="color-picker"
+          id="globalTaskColorPicker"
+        >
+
+          <button
+            type="button"
+            class="color-option selected"
+            data-color="#c96a4a"
+            style="background:#c96a4a"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#426b6b"
+            style="background:#426b6b"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#607c91"
+            style="background:#607c91"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#89977b"
+            style="background:#89977b"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#c39a52"
+            style="background:#c39a52"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#b98276"
+            style="background:#b98276"
+          ></button>
+
+          <button
+            type="button"
+            class="color-option"
+            data-color="#754e4b"
+            style="background:#754e4b"
+          ></button>
+
+        </div>
+
+      </div>
+
+
+      <footer class="modal-actions">
+
+        <button
+          type="button"
+          class="modal-secondary"
+          data-close-modal="globalTaskModal"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="modal-primary"
+        >
+          Crear tarea
+        </button>
+
+      </footer>
+
+    </form>
+
+  </section>
+
+</div>
+
+
+
+<!-- ========================================================
+     MODAL — SUBTAREA
+======================================================== -->
+
+<div
+  class="project-modal"
+  id="subtaskModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="project-modal-backdrop"
+    data-close-modal="subtaskModal"
+  ></div>
+
+
+  <section class="project-modal-card modal-card-large">
+
+    <header class="modal-header">
+
+      <div>
+
+        <span class="section-kicker">
+          SUBTAREA
+        </span>
+
+        <h2>
+          Nueva subtarea
+        </h2>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="modal-close"
+        data-close-modal="subtaskModal"
+      >
+        <i data-lucide="x"></i>
+      </button>
+
+    </header>
+
+
+    <form
+      id="subtaskForm"
+      class="project-form"
+    >
+
+      <div class="project-field">
+
+        <label for="subtaskTitle">
+          Nombre
+        </label>
+
+        <input
+          type="text"
+          id="subtaskTitle"
+          placeholder="Ej. Revisar literatura"
+          required
+        >
+
+      </div>
+
+
+      <div class="project-field">
+
+        <label for="subtaskDescription">
+          Descripción
+        </label>
+
+        <textarea
+          id="subtaskDescription"
+          rows="4"
+          placeholder="¿Qué hay que hacer?"
+        ></textarea>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="project-field">
+
+          <label for="subtaskStartDate">
+            Fecha de inicio
+          </label>
+
+          <input
+            type="date"
+            id="subtaskStartDate"
+          >
+
+        </div>
+
+
+        <div class="project-field">
+
+          <label for="subtaskDueDate">
+            Fecha límite
+          </label>
+
+          <input
+            type="date"
+            id="subtaskDueDate"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="project-field">
+
+          <label for="subtaskPriority">
+            Prioridad
+          </label>
+
+          <select id="subtaskPriority">
+
+            <option value="baja">
+              Baja
+            </option>
+
+            <option
+              value="media"
+              selected
+            >
+              Media
+            </option>
+
+            <option value="alta">
+              Alta
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="project-field">
+
+          <label for="subtaskStatus">
+            Estado
+          </label>
+
+          <select id="subtaskStatus">
+
+            <option value="sin_asignar">
+              Sin asignar
+            </option>
+
+            <option value="en_proceso">
+              En proceso
+            </option>
+
+            <option value="pendiente_evaluacion">
+              Pendiente de evaluación
+            </option>
+
+            <option value="terminada">
+              Terminada
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <!-- SOLO PROFESOR -->
+
+      <div
+        class="project-field"
+        id="assignmentField"
+        data-professor-only
+        hidden
+      >
+
+        <label>
+          Personas asignadas
+        </label>
+
+        <div
+          class="people-selector"
+          id="peopleSelector"
+        >
+          Cargando personas...
+        </div>
+
+      </div>
+
+
+      <footer class="modal-actions">
+
+        <button
+          type="button"
+          class="modal-secondary"
+          data-close-modal="subtaskModal"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="modal-primary"
+        >
+          Crear subtarea
+        </button>
+
+      </footer>
+
+    </form>
+
+  </section>
+
+</div>
+
+
+
+<!-- ========================================================
+     SUPABASE + JS
+======================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/app.js"></script>
+
+<script src="js/tasks.js"></script>
+
+</body>
+
+</html>

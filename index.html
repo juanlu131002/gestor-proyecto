@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Gestor de Proyecto</title>
+
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>P</text></svg>"
+  >
+
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="auth-page">
+
+  <main class="auth-wrapper">
+
+    <!-- LOGIN -->
+
+    <section
+      class="auth-card auth-panel"
+      id="loginPanel"
+    >
+
+      <div class="auth-brand">
+
+        <div class="brand-icon">
+          P
+        </div>
+
+        <div>
+          <p class="brand-name">
+            ProjectFlow
+          </p>
+
+          <p class="brand-subtitle">
+            Gestión colaborativa de proyectos
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="auth-header">
+
+        <span class="eyebrow">
+          Bienvenido de nuevo
+        </span>
+
+        <h1>
+          Organiza el proyecto.
+          <span>Avanza en equipo.</span>
+        </h1>
+
+        <p>
+          Accede para consultar tareas, entregas,
+          reuniones y el progreso del proyecto.
+        </p>
+
+      </div>
+
+
+      <form
+        id="loginForm"
+        class="auth-form"
+      >
+
+        <div class="form-group">
+
+          <label for="loginEmail">
+            Correo electrónico
+          </label>
+
+          <div class="input-wrapper">
+
+            <i
+              data-lucide="mail"
+              class="input-icon"
+            ></i>
+
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="nombre@correo.com"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <div class="label-row">
+
+            <label for="loginPassword">
+              Contraseña
+            </label>
+
+            <button
+              type="button"
+              class="text-button"
+              id="forgotPasswordButton"
+            >
+              ¿La has olvidado?
+            </button>
+
+          </div>
+
+
+          <div class="input-wrapper">
+
+            <i
+              data-lucide="lock-keyhole"
+              class="input-icon"
+            ></i>
+
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Introduce tu contraseña"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="toggleLoginPassword"
+              aria-label="Mostrar contraseña"
+            >
+              <i data-lucide="eye" class="icon-show"></i>
+              <i data-lucide="eye-off" class="icon-hide"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="primary-button"
+        >
+
+          <span>
+            Iniciar sesión
+          </span>
+
+          <i
+            data-lucide="arrow-right"
+            class="button-arrow"
+          ></i>
+
+        </button>
+
+
+        <p
+          id="loginMessage"
+          class="form-message"
+        ></p>
+
+      </form>
+
+
+      <div class="auth-footer">
+
+        <span>
+          ¿Todavía no tienes cuenta?
+        </span>
+
+        <button
+          type="button"
+          id="showRegisterButton"
+          class="link-button"
+        >
+          Crear cuenta
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- REGISTRO -->
+
+    <section
+      id="registerPanel"
+      class="auth-card auth-panel hidden"
+    >
+
+      <div class="auth-brand">
+
+        <div class="brand-icon">
+          P
+        </div>
+
+        <div>
+          <p class="brand-name">
+            ProjectFlow
+          </p>
+
+          <p class="brand-subtitle">
+            Gestión colaborativa de proyectos
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="auth-header">
+
+        <span class="eyebrow">
+          Nueva cuenta
+        </span>
+
+        <h2>
+          Únete al proyecto
+        </h2>
+
+        <p>
+          Crea tu cuenta para empezar a colaborar
+          con el resto del equipo.
+        </p>
+
+      </div>
+
+
+      <form
+        id="registerForm"
+        class="auth-form"
+      >
+
+        <div class="form-group">
+
+          <label for="registerName">
+            Nombre completo
+          </label>
+
+          <div class="input-wrapper">
+
+            <i
+              data-lucide="user"
+              class="input-icon"
+            ></i>
+
+            <input
+              type="text"
+              id="registerName"
+              placeholder="Tu nombre"
+              autocomplete="name"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="registerEmail">
+            Correo electrónico
+          </label>
+
+          <div class="input-wrapper">
+
+            <i
+              data-lucide="mail"
+              class="input-icon"
+            ></i>
+
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="nombre@correo.com"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="registerPassword">
+            Contraseña
+          </label>
+
+          <div class="input-wrapper">
+
+            <i
+              data-lucide="lock-keyhole"
+              class="input-icon"
+            ></i>
+
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Mínimo 6 caracteres"
+              minlength="6"
+              autocomplete="new-password"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="primary-button"
+        >
+
+          <span>
+            Crear cuenta
+          </span>
+
+          <i
+            data-lucide="arrow-right"
+            class="button-arrow"
+          ></i>
+
+        </button>
+
+
+        <p
+          id="registerMessage"
+          class="form-message"
+        ></p>
+
+      </form>
+
+
+      <div class="auth-footer">
+
+        <span>
+          ¿Ya tienes una cuenta?
+        </span>
+
+        <button
+          type="button"
+          id="showLoginButton"
+          class="link-button"
+        >
+          Volver al login
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Configuración -->
+  <script src="js/supabase.js"></script>
+
+  <!-- Autenticación -->
+  <script src="js/auth.js"></script>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+
+</html>

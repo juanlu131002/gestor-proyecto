@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ProjectFlow · Kanban</title>
+
+  <!-- CSS GENERAL -->
+  <link rel="stylesheet" href="css/app.css">
+
+  <!-- CSS KANBAN -->
+  <link rel="stylesheet" href="css/kanban.css">
+
+  <!-- ICONOS -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- ======================================================
+       SIDEBAR
+  ======================================================= -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-top">
+
+      <a href="dashboard.html" class="brand">
+
+        <div class="brand-mark">
+          P
+        </div>
+
+        <div class="brand-copy">
+          <strong>ProjectFlow</strong>
+          <span>Proyecto</span>
+        </div>
+
+      </a>
+
+
+      <nav class="nav">
+
+        <span class="nav-title">
+          PROYECTO
+        </span>
+
+
+        <a href="dashboard.html" class="nav-link">
+          <i data-lucide="circle"></i>
+          <span>Resumen</span>
+        </a>
+
+
+        <a href="tasks.html" class="nav-link">
+          <i data-lucide="list-checks"></i>
+          <span>Tareas</span>
+        </a>
+
+
+        <a href="kanban.html" class="nav-link active">
+          <i data-lucide="columns-3"></i>
+          <span>Kanban</span>
+        </a>
+
+
+        <a href="gantt.html" class="nav-link">
+          <i data-lucide="chart-gantt"></i>
+          <span>Gantt</span>
+        </a>
+
+
+        <a href="calendar.html" class="nav-link">
+          <i data-lucide="calendar-days"></i>
+          <span>Calendario</span>
+        </a>
+
+      </nav>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <div
+        class="user-avatar"
+        id="sidebarAvatar"
+      >
+        --
+      </div>
+
+
+      <div class="user-copy">
+
+        <strong id="sidebarUserName">
+          Cargando...
+        </strong>
+
+        <span id="sidebarUserRole">
+          —
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="sidebar-more"
+        id="logoutButton"
+        title="Cerrar sesión"
+      >
+        <i data-lucide="log-out"></i>
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          type="button"
+          class="mobile-menu"
+        >
+          <i data-lucide="menu"></i>
+        </button>
+
+        <span class="topbar-project">
+          Proyecto de la asignatura
+        </span>
+
+      </div>
+
+
+      <div class="topbar-right">
+
+        <button
+          type="button"
+          class="topbar-icon"
+          title="Buscar"
+        >
+          <i data-lucide="search"></i>
+        </button>
+
+
+        <div class="notifications-wrapper" id="notificationsWrapper">
+
+          <button
+            type="button"
+            class="topbar-icon"
+            id="notificationsButton"
+            title="Notificaciones"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i data-lucide="bell"></i>
+            <span
+              class="notifications-badge"
+              id="notificationsBadge"
+              hidden
+            ></span>
+          </button>
+
+          <div
+            class="notifications-panel"
+            id="notificationsPanel"
+            hidden
+          >
+
+            <div class="notifications-panel-header">
+              Notificaciones
+            </div>
+
+            <div
+              class="notifications-list"
+              id="notificationsList"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ======================================================
+         CONTENT
+    ======================================================= -->
+
+    <div class="kanban-main">
+
+      <!-- ====================================================
+           HEADER
+      ===================================================== -->
+
+      <section class="kanban-header">
+
+        <div>
+
+          <span class="section-kicker">
+            ORGANIZACIÓN
+          </span>
+
+          <h1>
+            Kanban
+          </h1>
+
+          <p>
+            Arrastra las subtareas entre columnas para actualizar su estado.
+          </p>
+
+        </div>
+
+
+        <div class="kanban-summary">
+
+          <div>
+            <strong id="kanbanTotal">0</strong>
+            <span>SUBTAREAS</span>
+          </div>
+
+          <div>
+            <strong id="kanbanInProgress">0</strong>
+            <span>EN PROCESO</span>
+          </div>
+
+          <div>
+            <strong id="kanbanCompleted">0</strong>
+            <span>TERMINADAS</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           LEYENDA
+      ===================================================== -->
+
+      <section class="kanban-legend-card">
+
+        <div class="kanban-legend-heading">
+
+          <div>
+            <span class="section-kicker">
+              TAREAS GLOBALES
+            </span>
+
+            <h2>
+              Leyenda
+            </h2>
+          </div>
+
+        </div>
+
+
+        <div
+          class="kanban-legend"
+          id="kanbanLegend"
+        >
+          Cargando...
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           FILTERS
+      ===================================================== -->
+
+      <section class="kanban-toolbar">
+
+        <div class="kanban-search">
+
+          <i data-lucide="search"></i>
+
+          <input
+            type="search"
+            id="kanbanSearch"
+            placeholder="Buscar una subtarea..."
+          >
+
+        </div>
+
+
+        <select
+          id="kanbanGlobalFilter"
+          class="kanban-filter"
+        >
+
+          <option value="">
+            Todas las tareas globales
+          </option>
+
+        </select>
+
+
+        <select
+          id="kanbanPriorityFilter"
+          class="kanban-filter"
+        >
+
+          <option value="">
+            Todas las prioridades
+          </option>
+
+          <option value="alta">
+            Alta
+          </option>
+
+          <option value="media">
+            Media
+          </option>
+
+          <option value="baja">
+            Baja
+          </option>
+
+        </select>
+
+      </section>
+
+
+      <!-- ====================================================
+           BOARD
+      ===================================================== -->
+
+      <section
+        class="kanban-board"
+        id="kanbanBoard"
+      >
+
+
+        <!-- SIN ASIGNAR -->
+
+        <div
+          class="kanban-column"
+          data-status-column="sin_asignar"
+        >
+
+          <header class="kanban-column-header">
+
+            <div>
+
+              <span class="kanban-column-dot status-unassigned"></span>
+
+              <h2>
+                Sin asignar
+              </h2>
+
+            </div>
+
+            <span
+              class="kanban-count"
+              id="count-sin_asignar"
+            >
+              0
+            </span>
+
+          </header>
+
+
+          <div
+            class="kanban-column-body"
+            data-drop-zone="sin_asignar"
+            id="column-sin_asignar"
+          >
+
+            <div class="kanban-loading">
+              Cargando...
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- EN PROCESO -->
+
+        <div
+          class="kanban-column"
+          data-status-column="en_proceso"
+        >
+
+          <header class="kanban-column-header">
+
+            <div>
+
+              <span class="kanban-column-dot status-progress"></span>
+
+              <h2>
+                En proceso
+              </h2>
+
+            </div>
+
+            <span
+              class="kanban-count"
+              id="count-en_proceso"
+            >
+              0
+            </span>
+
+          </header>
+
+
+          <div
+            class="kanban-column-body"
+            data-drop-zone="en_proceso"
+            id="column-en_proceso"
+          >
+          </div>
+
+        </div>
+
+
+        <!-- PENDIENTE DE EVALUACIÓN -->
+
+        <div
+          class="kanban-column"
+          data-status-column="pendiente_evaluacion"
+        >
+
+          <header class="kanban-column-header">
+
+            <div>
+
+              <span class="kanban-column-dot status-review"></span>
+
+              <h2>
+                Pendiente evaluación
+              </h2>
+
+            </div>
+
+            <span
+              class="kanban-count"
+              id="count-pendiente_evaluacion"
+            >
+              0
+            </span>
+
+          </header>
+
+
+          <div
+            class="kanban-column-body"
+            data-drop-zone="pendiente_evaluacion"
+            id="column-pendiente_evaluacion"
+          >
+          </div>
+
+        </div>
+
+
+        <!-- TERMINADA -->
+
+        <div
+          class="kanban-column"
+          data-status-column="terminada"
+        >
+
+          <header class="kanban-column-header">
+
+            <div>
+
+              <span class="kanban-column-dot status-done"></span>
+
+              <h2>
+                Terminada
+              </h2>
+
+            </div>
+
+            <span
+              class="kanban-count"
+              id="count-terminada"
+            >
+              0
+            </span>
+
+          </header>
+
+
+          <div
+            class="kanban-column-body"
+            data-drop-zone="terminada"
+            id="column-terminada"
+          >
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- ========================================================
+     SUPABASE + JS
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/app.js"></script>
+
+<script src="js/kanban.js"></script>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+
+</html>
