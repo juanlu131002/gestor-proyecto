@@ -223,13 +223,29 @@ window.ProjectFlow = {
   
   
   function isStudent() {
-  
+
     return (
       window.ProjectFlow.profile?.role
       ===
       "estudiante"
     );
-  
+
+  }
+
+
+  /*
+     Permiso para crear, editar, asignar y eliminar
+     tareas/subtareas: disponible tanto para
+     profesores como para estudiantes.
+  */
+  function canManageTasks() {
+
+    return (
+      isProfessor()
+      ||
+      isStudent()
+    );
+
   }
   
   
@@ -331,13 +347,15 @@ window.ProjectFlow = {
   
   
     /*
-       Elementos exclusivos de profesor.
-  
+       Elementos de gestión de tareas/subtareas
+       (editar, asignar, eliminar).
+
        Cualquier elemento HTML que tenga:
-  
+
        data-professor-only
-  
-       solo se mostrará para profesores.
+
+       se mostrará tanto a profesores como a
+       estudiantes.
     */
   
     document
@@ -345,9 +363,9 @@ window.ProjectFlow = {
         "[data-professor-only]"
       )
       .forEach(element => {
-  
-        if (isProfessor()) {
-  
+
+        if (canManageTasks()) {
+
           element.hidden = false;
   
         } else {
@@ -2280,8 +2298,12 @@ function openModal(id) {
   
   window.ProjectFlow.isStudent =
     isStudent;
-  
-  
+
+
+  window.ProjectFlow.canManageTasks =
+    canManageTasks;
+
+
   window.ProjectFlow.fetchGlobalTasks =
     fetchGlobalTasks;
   

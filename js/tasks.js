@@ -460,7 +460,7 @@ function renderSelectedGlobalHeader() {
 
 
       ${
-        ProjectFlow.isProfessor()
+        ProjectFlow.canManageTasks()
           ? `
 
             <button
@@ -847,7 +847,7 @@ function renderSubtaskCard(task) {
 
 
           ${
-            ProjectFlow.isProfessor()
+            ProjectFlow.canManageTasks()
               ? `
 
                 <button
@@ -1011,7 +1011,7 @@ function renderPeopleSelector() {
   }
 
 
-  if (!ProjectFlow.isProfessor()) {
+  if (!ProjectFlow.canManageTasks()) {
 
     container.innerHTML = "";
 
@@ -1530,7 +1530,7 @@ function openEditGlobalTaskModal(
   taskId
 ) {
 
-  if (!ProjectFlow.isProfessor()) {
+  if (!ProjectFlow.canManageTasks()) {
     return;
   }
 
@@ -1749,7 +1749,7 @@ function openEditSubtaskModal(
   taskId
 ) {
 
-  if (!ProjectFlow.isProfessor()) {
+  if (!ProjectFlow.canManageTasks()) {
     return;
   }
 
@@ -2187,10 +2187,10 @@ async function updateGlobalTask(
   }
 
 
-  if (!ProjectFlow.isProfessor()) {
+  if (!ProjectFlow.canManageTasks()) {
 
     ProjectFlow.showToast(
-      "Solo los profesores pueden editar tareas",
+      "No tienes permisos para editar tareas",
       "error"
     );
 
@@ -2556,7 +2556,7 @@ async function createSubtask(
      ASIGNACIONES
   ========================================================== */
 
-  if (ProjectFlow.isProfessor()) {
+  if (ProjectFlow.canManageTasks()) {
 
     const selectedUsers =
       getSelectedUserIds();
@@ -2661,10 +2661,10 @@ async function updateSubtask(
   }
 
 
-  if (!ProjectFlow.isProfessor()) {
+  if (!ProjectFlow.canManageTasks()) {
 
     ProjectFlow.showToast(
-      "Solo los profesores pueden editar subtareas",
+      "No tienes permisos para editar subtareas",
       "error"
     );
 
@@ -3230,10 +3230,10 @@ async function deleteSubtask(
   taskId
 ) {
 
-  if (!ProjectFlow.isProfessor()) {
+  if (!ProjectFlow.canManageTasks()) {
 
     ProjectFlow.showToast(
-      "Solo los profesores pueden eliminar subtareas",
+      "No tienes permisos para eliminar subtareas",
       "error"
     );
 
@@ -3344,10 +3344,10 @@ async function deleteGlobalTask(
   taskId
 ) {
 
-  if (!ProjectFlow.isProfessor()) {
+  if (!ProjectFlow.canManageTasks()) {
 
     ProjectFlow.showToast(
-      "Solo los profesores pueden eliminar tareas",
+      "No tienes permisos para eliminar tareas",
       "error"
     );
 
