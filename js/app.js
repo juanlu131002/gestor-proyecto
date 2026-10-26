@@ -592,38 +592,48 @@ window.ProjectFlow = {
   /* ============================================================
      CARGAR PERFILES
   ============================================================ */
-  
+
+  // Cuentas que no pertenecen a este proyecto (p.ej. filtradas desde
+  // PracticeFlow por el trigger de registro compartido) y no deben
+  // aparecer en esta app, aunque sigan teniendo fila en public.profiles.
+  const HIDDEN_PROFILE_EMAILS = [
+    "javier.otero@alumnos.upm.es",
+    "marinachiara.perez@alumnos.upm.es"
+  ];
+
   async function fetchProfiles() {
-  
+
     const {
       data,
       error
     } = await supabaseClient
-  
+
       .from("profiles")
-  
+
       .select(`
         id,
         email,
         full_name,
         role
       `)
-  
+
       .order(
         "full_name",
         {
           ascending: true
         }
       );
-  
-  
+
+
     if (error) {
       throw error;
     }
-  
-  
-    return data || [];
-  
+
+
+    return (data || []).filter(
+      (profile) => !HIDDEN_PROFILE_EMAILS.includes(profile.email)
+    );
+
   }
   
   

@@ -99,7 +99,8 @@ registerForm.addEventListener('submit', async (event) => {
       options: {
 
         data: {
-          full_name: fullName
+          full_name: fullName,
+          app: 'gestor_proyecto'
         }
 
       }
